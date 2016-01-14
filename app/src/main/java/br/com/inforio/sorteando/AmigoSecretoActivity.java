@@ -1,5 +1,6 @@
 package br.com.inforio.sorteando;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 import br.com.inforio.sorteando.adapter.SelecionarParticipanteAdapter;
+import br.com.inforio.sorteando.dialog.ConfirmarDialog;
 import br.com.inforio.sorteando.dialog.SelecionarDialog;
 import br.com.inforio.sorteando.model.Participante;
 
@@ -151,15 +153,30 @@ public class AmigoSecretoActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contador = 0;
-                tempo    = 10;
-                txtSorteio.setTextColor(Color.BLACK);
-                btnSortear.setEnabled(false);
+                final ConfirmarDialog CONFIRMAR_DIALOG = new ConfirmarDialog(AmigoSecretoActivity.this);
+                CONFIRMAR_DIALOG.setTitle("Confirma?");
+                CONFIRMAR_DIALOG.show();
 
-                sorteador = (Participante) spnSorteador.getSelectedItem();
-                listaParticipantesNaoSorteados.remove(sorteador);
-                sortear();
+                Button btnSim = (Button) CONFIRMAR_DIALOG.findViewById(R.id.btnSim);
+                btnSim.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CONFIRMAR_DIALOG.dismiss();
+                        IniciarSorteio();
+                    }
+                });
             }
         };
+    }
+
+    private void IniciarSorteio() {
+        contador = 0;
+        tempo = 10;
+        txtSorteio.setTextColor(Color.BLACK);
+        btnSortear.setEnabled(false);
+
+        sorteador = (Participante) spnSorteador.getSelectedItem();
+        listaParticipantesNaoSorteados.remove(sorteador);
+        sortear();
     }
 }

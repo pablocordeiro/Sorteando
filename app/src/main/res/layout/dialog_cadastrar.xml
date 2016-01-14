@@ -21,5 +21,7 @@
         android:layout_height="wrap_content"
         android:text="@string/salvar"
         android:id="@+id/btnSalvar"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/customize_button"
+        android:textColor="@color/Green50" />
 </LinearLayout>

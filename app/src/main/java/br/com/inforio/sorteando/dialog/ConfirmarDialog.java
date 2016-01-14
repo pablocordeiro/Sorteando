@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import br.com.inforio.sorteando.R;
 
@@ -12,6 +13,7 @@ public class ConfirmarDialog extends Dialog {
     private Context context;
     private Button btnSim;
     private Button btnNao;
+    private TextView txtTitulo;
 
     public ConfirmarDialog(Context context) {
         super(context);
@@ -21,7 +23,7 @@ public class ConfirmarDialog extends Dialog {
 
         btnSim = (Button) findViewById(R.id.btnSim);
         btnNao = (Button) findViewById(R.id.btnNao);
-
+        txtTitulo = (TextView) findViewById(R.id.txtTitulo);
 
         btnNao = (Button) findViewById(R.id.btnNao);
         btnNao.setOnClickListener(onClickNao());
@@ -38,4 +40,14 @@ public class ConfirmarDialog extends Dialog {
         };
     }
 
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        txtTitulo.setText(title);
+    }
+
+    @Override
+    public void setTitle(int titleId) {
+        super.setTitle(titleId);
+        txtTitulo.setText(context.getResources().getString(titleId));
+    }
 }

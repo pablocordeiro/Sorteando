@@ -39,7 +39,7 @@ public class SelecionarDialog extends Dialog {
         selecionarParticipanteAdapter = new SelecionarParticipanteAdapter(this.context, listaParticipantes);
         lvSelecionarParticipante.setAdapter(selecionarParticipanteAdapter);
 
-        setCancelable(true);
+        setCancelable(false);
     }
 
     private View.OnClickListener onClickConfirmar() {
