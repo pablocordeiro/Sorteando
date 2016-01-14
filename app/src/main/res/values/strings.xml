@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">#Sorteando</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="cadastro">Cadastro</string>
+    <string name="sortear">Sortear</string>
+    <string name="title_activity_cadastrar">Cadastrar</string>
+    <string name="title_activity_sortear">Sortear</string>
+    <string name="novo">Novo</string>
+    <string name="nome">Nome: </string>
+    <string name="salvar">Salvar</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="amigo_secreto">Amigo Secreto</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+</resources>

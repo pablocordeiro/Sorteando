@@ -1,0 +1,12 @@
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/Green500</item>
+        <item name="colorPrimaryDark">@color/Green700</item>
+        <item name="android:buttonStyle">@style/MyButton</item>
+    </style>
+
+    <style name="MyButton" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@color/Green400</item>
+        <item name="android:textColor">@color/Green50</item>
+    </style>
+</resources>
