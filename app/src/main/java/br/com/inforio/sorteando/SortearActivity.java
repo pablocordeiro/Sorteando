@@ -51,13 +51,15 @@ public class SortearActivity extends AppCompatActivity {
         selecionarDialog.getWindow().setAttributes(lp);
     }
 
-    public void carregarListaSorteio(List<Participante> listaParticipantes){
+    public boolean carregarListaSorteio(List<Participante> listaParticipantes){
         listaParticipantesSelecionados = new ArrayList<Participante>();
 
         for (Participante participante: listaParticipantes) {
             if (participante.getMarcado())
                 listaParticipantesSelecionados.add(participante);
         }
+
+        return !listaParticipantesSelecionados.isEmpty();
     }
 
     public void sortear() {

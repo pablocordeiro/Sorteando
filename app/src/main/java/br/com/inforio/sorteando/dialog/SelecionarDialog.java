@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -39,20 +40,32 @@ public class SelecionarDialog extends Dialog {
         selecionarParticipanteAdapter = new SelecionarParticipanteAdapter(this.context, listaParticipantes);
         lvSelecionarParticipante.setAdapter(selecionarParticipanteAdapter);
 
-        setCancelable(false);
+        setCancelable(true);
     }
 
     private View.OnClickListener onClickConfirmar() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean retorno;
                 if (context instanceof SortearActivity)
-                    ((SortearActivity) context).carregarListaSorteio(listaParticipantes);
+                    retorno = ((SortearActivity) context).carregarListaSorteio(listaParticipantes);
                 else
-                    ((AmigoSecretoActivity) context).carregarListaSorteio(listaParticipantes);
-                dismiss();
+                    retorno = ((AmigoSecretoActivity) context).carregarListaSorteio(listaParticipantes);
+                if (retorno)
+                    dismiss();
+                else
+                    Toast.makeText(context, "Selecione um participante!", Toast.LENGTH_SHORT).show();
             }
         };
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (context instanceof SortearActivity)
+            ((SortearActivity) context).finish();
+        else
+            ((AmigoSecretoActivity) context).finish();
     }
 
 }

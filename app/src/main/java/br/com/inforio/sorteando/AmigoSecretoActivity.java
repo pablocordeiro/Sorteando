@@ -1,9 +1,11 @@
 package br.com.inforio.sorteando;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import br.com.inforio.sorteando.adapter.SelecionarParticipanteAdapter;
 import br.com.inforio.sorteando.dialog.ConfirmarDialog;
 import br.com.inforio.sorteando.dialog.SelecionarDialog;
 import br.com.inforio.sorteando.model.Participante;
@@ -27,8 +28,6 @@ public class AmigoSecretoActivity extends AppCompatActivity {
     private TextView txtSorteio;
     private TextView txtTempoLimpar;
     private Spinner spnSorteador;
-    private SelecionarParticipanteAdapter selecionarParticipanteAdapter;
-
 
     private List<Participante> listaParticipantesSelecionados;
     private List<Participante> listaParticipantesNaoSorteados;
@@ -68,7 +67,7 @@ public class AmigoSecretoActivity extends AppCompatActivity {
         selecionarDialog.getWindow().setAttributes(lp);
     }
 
-    public void carregarListaSorteio(List<Participante> listaParticipantes){
+    public boolean carregarListaSorteio(List<Participante> listaParticipantes){
         listaParticipantesSelecionados = new ArrayList<Participante>();
         listaParticipantesNaoSorteados = new ArrayList<Participante>();
         listaParticipantesSorteados = new ArrayList<Participante>();
@@ -83,6 +82,8 @@ public class AmigoSecretoActivity extends AppCompatActivity {
         }
 
         atualizarSpinner();
+
+        return !listaParticipantesSelecionados.isEmpty();
     }
 
     private void atualizarSpinner() {
@@ -96,6 +97,7 @@ public class AmigoSecretoActivity extends AppCompatActivity {
             public void run() {
                 contador++;
                 tempo += 5;
+                btnSortear.setEnabled(false);
 
                 int indice = new Random().nextInt(listaParticipantesSelecionados.size());
                 txtSorteio.setText(listaParticipantesSelecionados.get(indice).getNome().toString());
@@ -103,18 +105,25 @@ public class AmigoSecretoActivity extends AppCompatActivity {
                 if (contador <= QUANTIDADE_REPETICAO)
                     sortear();
                 else {
-                    Participante participante = listaParticipantesNaoSorteados.get(new Random().nextInt(listaParticipantesNaoSorteados.size()));
+                    Participante participante = new Participante();
+
+                    boolean sorteado = ParticipanteJaSorteado(sorteador.getId());
+                    int size = listaParticipantesNaoSorteados.size();
+
+                    if (!sorteado)
+                        size += 1;
+
+                    if (size == 2) {
+                        for (Participante participante2 : listaParticipantesNaoSorteados) {
+                            if (!ParticipanteJaSorteou(participante2.getId())) {
+                                participante = participante2;
+                                break;
+                            }
+                        }
+                    } else
+                        participante = listaParticipantesNaoSorteados.get(new Random().nextInt(listaParticipantesNaoSorteados.size()));
                     txtSorteio.setText(participante.getNome().toString());
                     txtSorteio.setTextColor(getResources().getColor(R.color.Green900));
-                    btnSortear.setEnabled(true);
-
-                    boolean sorteado = false;
-                    for (Participante participante1 : listaParticipantesSorteados) {
-                        if (participante1.getId() == sorteador.getId()) {
-                            sorteado = true;
-                            break;
-                        }
-                    }
 
                     if (!sorteado)
                         listaParticipantesNaoSorteados.add(sorteador);
@@ -133,19 +142,33 @@ public class AmigoSecretoActivity extends AppCompatActivity {
         atualizarSpinner();
         txtSorteio.setText("");
         txtTempoLimpar.setText("");
+        btnSortear.setEnabled(spnSorteador.getCount() > 0);
+
+        if (spnSorteador.getCount() <= 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Sorteio finalizado");
+
+            builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                                        
+                }
+            });
+        }
     }
+
     public void cooldownLimpar(){
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 contLimpar--;
                 txtTempoLimpar.setText("" + contLimpar);
+
                 if (contLimpar > 0)
                     cooldownLimpar();
                 else {
                     limparResultado();
                 }
             }
-        },1000);
+        }, 1000);
 
     }
 
@@ -178,5 +201,26 @@ public class AmigoSecretoActivity extends AppCompatActivity {
         sorteador = (Participante) spnSorteador.getSelectedItem();
         listaParticipantesNaoSorteados.remove(sorteador);
         sortear();
+    }
+
+    private boolean ParticipanteJaSorteou(int id) {
+        boolean encontrado = false;
+        for (Participante participante : listaParticipantesSorteador) {
+            if (participante.getId() == id){
+                encontrado = true;
+            }
+        }
+        return !encontrado;
+    }
+
+    private boolean ParticipanteJaSorteado(int id) {
+        boolean sorteado = false;
+        for (Participante participante : listaParticipantesSorteados) {
+            if (participante.getId() == id) {
+                sorteado = true;
+                break;
+            }
+        }
+        return sorteado;
     }
 }
