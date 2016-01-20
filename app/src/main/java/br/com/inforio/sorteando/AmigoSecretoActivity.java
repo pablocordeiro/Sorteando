@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import br.com.inforio.sorteando.dialog.AlertaDialog;
 import br.com.inforio.sorteando.dialog.ConfirmarDialog;
 import br.com.inforio.sorteando.dialog.SelecionarDialog;
 import br.com.inforio.sorteando.model.Participante;
@@ -113,7 +114,7 @@ public class AmigoSecretoActivity extends AppCompatActivity {
                     if (!sorteado)
                         size += 1;
 
-                    if (size == 2) {
+                    if ((size == 2) && (ParticipanteJaSorteado(sorteador.getId()))){
                         for (Participante participante2 : listaParticipantesNaoSorteados) {
                             if (!ParticipanteJaSorteou(participante2.getId())) {
                                 participante = participante2;
@@ -145,14 +146,9 @@ public class AmigoSecretoActivity extends AppCompatActivity {
         btnSortear.setEnabled(spnSorteador.getCount() > 0);
 
         if (spnSorteador.getCount() <= 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Sorteio finalizado");
-
-            builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                                        
-                }
-            });
+            final AlertaDialog ALERTA_DIALOG = new AlertaDialog(AmigoSecretoActivity.this);
+            ALERTA_DIALOG.setTitle("Sorteio finalizado com sucesso!!!");
+            ALERTA_DIALOG.show();
         }
     }
 
