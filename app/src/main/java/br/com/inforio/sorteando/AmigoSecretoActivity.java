@@ -29,6 +29,7 @@ public class AmigoSecretoActivity extends AppCompatActivity {
     private TextView txtSorteio;
     private TextView txtTempoLimpar;
     private Spinner spnSorteador;
+    private SelecionarDialog selecionarDialog;
 
     private List<Participante> listaParticipantesSelecionados;
     private List<Participante> listaParticipantesNaoSorteados;
@@ -57,7 +58,7 @@ public class AmigoSecretoActivity extends AppCompatActivity {
     }
 
     public void criarDialogSelecionarParticipante(){
-        SelecionarDialog selecionarDialog = new SelecionarDialog(AmigoSecretoActivity.this);
+        selecionarDialog = new SelecionarDialog(AmigoSecretoActivity.this, true);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(selecionarDialog.getWindow().getAttributes());
@@ -84,7 +85,7 @@ public class AmigoSecretoActivity extends AppCompatActivity {
 
         atualizarSpinner();
 
-        return !listaParticipantesSelecionados.isEmpty();
+        return listaParticipantesSelecionados.size() > 1;
     }
 
     private void atualizarSpinner() {
@@ -114,7 +115,7 @@ public class AmigoSecretoActivity extends AppCompatActivity {
                     if (!sorteado)
                         size += 1;
 
-                    if ((size == 2) && (ParticipanteJaSorteado(sorteador.getId()))){
+                    if ((size == 2) && (ParticipanteJaSorteado(sorteador.getId()))) {
                         for (Participante participante2 : listaParticipantesNaoSorteados) {
                             if (!ParticipanteJaSorteou(participante2.getId())) {
                                 participante = participante2;
@@ -218,5 +219,9 @@ public class AmigoSecretoActivity extends AppCompatActivity {
             }
         }
         return sorteado;
+    }
+
+    public void atualizar() {
+        selecionarDialog.atualizarListaParticipantes(true);
     }
 }

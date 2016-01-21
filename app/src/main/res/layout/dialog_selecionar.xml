@@ -3,18 +3,43 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Selecione os participantes:"
+        android:textSize="23dp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/Green900"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/lvSelecionarParticipante"
         android:layout_weight="0.84" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_gravity="center_horizontal" />
+
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="59dp"
+        android:layout_height="wrap_content"
         android:text="@string/confirmar"
         android:id="@+id/btnConfirmar"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/customize_button"
         android:textColor="@color/Green50" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

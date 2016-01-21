@@ -2,6 +2,7 @@ package br.com.inforio.sorteando.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -25,7 +26,7 @@ public class SelecionarDialog extends Dialog {
     private Button btnConfirmar;
 
 
-    public SelecionarDialog(Context context) {
+    public SelecionarDialog(Context context, boolean botaoAdicionar) {
         super(context);
         this.context = context;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -36,11 +37,19 @@ public class SelecionarDialog extends Dialog {
 
         btnConfirmar.setOnClickListener(onClickConfirmar());
 
+        atualizarListaParticipantes(botaoAdicionar);
+
+        setCancelable(false);
+    }
+
+    public void atualizarListaParticipantes(boolean botaoAdicionar) {
         listaParticipantes = RepositorioParticipante.getInstancia(this.context).getParticipantes();
+        if (botaoAdicionar) {
+            Participante participante = new Participante();
+            listaParticipantes.add(participante);
+        }
         selecionarParticipanteAdapter = new SelecionarParticipanteAdapter(this.context, listaParticipantes);
         lvSelecionarParticipante.setAdapter(selecionarParticipanteAdapter);
-
-        setCancelable(true);
     }
 
     private View.OnClickListener onClickConfirmar() {
@@ -55,7 +64,7 @@ public class SelecionarDialog extends Dialog {
                 if (retorno)
                     dismiss();
                 else
-                    Toast.makeText(context, "Selecione um participante!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Selecione pelo menos 2 participantes!", Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -67,5 +76,4 @@ public class SelecionarDialog extends Dialog {
         else
             ((AmigoSecretoActivity) context).finish();
     }
-
 }

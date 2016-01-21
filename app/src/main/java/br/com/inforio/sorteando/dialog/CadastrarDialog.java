@@ -8,8 +8,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import br.com.inforio.sorteando.AmigoSecretoActivity;
 import br.com.inforio.sorteando.CadastrarActivity;
 import br.com.inforio.sorteando.R;
+import br.com.inforio.sorteando.SortearActivity;
+import br.com.inforio.sorteando.adapter.SelecionarParticipanteAdapter;
 import br.com.inforio.sorteando.db.RepositorioParticipante;
 import br.com.inforio.sorteando.model.Participante;
 
@@ -52,8 +55,13 @@ public class CadastrarDialog extends Dialog {
                         repositorioParticipante.alterar(participante);
                     }
 
-                    ((CadastrarActivity) context).atualizar();
-                    dismiss();
+                    if (context instanceof CadastrarActivity)
+                       ((CadastrarActivity) context).atualizar();
+                    if (context instanceof SortearActivity)
+                       ((SortearActivity) context).atualizar();
+                    if (context instanceof AmigoSecretoActivity)
+                        ((AmigoSecretoActivity) context).atualizar();
+                   dismiss();
                 }
             }
         };

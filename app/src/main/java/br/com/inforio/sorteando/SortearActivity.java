@@ -21,6 +21,8 @@ public class SortearActivity extends AppCompatActivity {
     private Button btnSortear;
     private TextView txtSorteio;
 
+    private SelecionarDialog selecionarDialog;
+
     private List<Participante> listaParticipantesSelecionados;
     private int contador;
     private int tempo;
@@ -40,7 +42,7 @@ public class SortearActivity extends AppCompatActivity {
     }
 
     public void criarDialogSelecionarParticipante(){
-        SelecionarDialog selecionarDialog = new SelecionarDialog(SortearActivity.this);
+        selecionarDialog = new SelecionarDialog(SortearActivity.this, true);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(selecionarDialog.getWindow().getAttributes());
@@ -59,7 +61,7 @@ public class SortearActivity extends AppCompatActivity {
                 listaParticipantesSelecionados.add(participante);
         }
 
-        return !listaParticipantesSelecionados.isEmpty();
+        return listaParticipantesSelecionados.size() > 1;
     }
 
     public void sortear() {
@@ -76,7 +78,7 @@ public class SortearActivity extends AppCompatActivity {
                 if (contador <= QUANTIDADE_REPETICAO)
                     sortear();
                 else {
-                    txtSorteio.setTextColor(Color.BLUE);
+                    txtSorteio.setTextColor(getResources().getColor(R.color.Green900));
                     btnSortear.setEnabled(true);
                 }
             }
@@ -93,5 +95,9 @@ public class SortearActivity extends AppCompatActivity {
                 sortear();
             }
         };
+    }
+
+    public void atualizar() {
+        selecionarDialog.atualizarListaParticipantes(true);
     }
 }
