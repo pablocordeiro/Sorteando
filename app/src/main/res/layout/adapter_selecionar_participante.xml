@@ -21,8 +21,8 @@
         android:id="@+id/llAdicionar">
 
         <ImageButton
-            android:layout_width="35dp"
-            android:layout_height="27dp"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
             android:background="@drawable/add_button"
             android:clickable="true" />
 
